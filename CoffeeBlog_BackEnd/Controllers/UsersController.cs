@@ -79,30 +79,45 @@ namespace CoffeeBlog_BackEnd.Controllers
         }
 
         // Helper: Hash password
+        //private string HashPassword(string password)
+        //{
+        //    using var sha256 = SHA256.Create();
+        //    var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+        //    return Convert.ToBase64String(bytes);
+        //}
         private string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
+            return BCrypt.Net.BCrypt.HashPassword(password);
+            // Default work factor = 11 (perfect for web apps)
+            // You can do: BCrypt.Net.BCrypt.HashPassword(password, 12) for extra strength
+        }
+
+        private bool VerifyPassword(string password, string hash)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
 
-        //--------------------------------------------------------------------LOGIN / JWT ASSIGNING------------------
+
+
+        //--------------------------------------------------------------------LOGIN------------------
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == dto.Username);
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+            if (user == null || !VerifyPassword(dto.Password, user.PasswordHash)){
+                Console.WriteLine("LOGIN FAILED!!");
                 return BadRequest("Invalid username or password.");
+            }
 
             var token = GenerateJwtToken(user);
-
+            Console.WriteLine("User login Successful!");
             return Ok(new { token });
         }
 
-        // ============================== PRIVATE: Generate JWT ==============================
+        // =================================================================== JWT ASSIGNING ==============================
         private string GenerateJwtToken(User user)
         {
             var claims = new[]

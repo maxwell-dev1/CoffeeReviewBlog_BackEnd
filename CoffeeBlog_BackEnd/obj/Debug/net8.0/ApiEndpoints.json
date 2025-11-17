@@ -116,5 +116,21 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "CoffeeBlog_BackEnd.Controllers.UsersController",
+    "Method": "Login",
+    "RelativePath": "api/Users/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "CoffeeBlog_BackEnd.Models.LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

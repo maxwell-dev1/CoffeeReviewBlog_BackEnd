@@ -79,6 +79,9 @@ app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
+
+app.UseStaticFiles();//enables our use of wwwroot folder to hold images users upload
+
 app.MapControllers();
 
 app.Run();
