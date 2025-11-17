@@ -1,17 +1,50 @@
 using CoffeeBlog_BackEnd.Models;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+// READ SECRETS FROM ENV VARS
+// -----------------------------------------------------------------------------------------
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
+             ?? throw new InvalidOperationException("JWT_KEY is missing in .env");
 
 var dbConnection = Environment.GetEnvironmentVariable("DB_CONNECTION")
                    ?? throw new InvalidOperationException("DB_CONNECTION is missing in .env");
 
-// Add services to the container.
+// SERVICES -----------------------------------------------------------------------------------------------
 
 builder.Services.AddControllers();
+//Dependency injection of AppDbContext via connection string w/ sqlserver
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(dbConnection));
+
+// JWT Authentication
+var key = Encoding.ASCII.GetBytes(jwtKey);
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = true;  // false only for local HTTP
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 
 // Allow Postman, Swagger, and localhost
 builder.Services.AddCors(options =>
@@ -28,9 +61,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Dependency injection of AppDbContext via connection string w/ sqlserver
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(dbConnection));
 
 
 

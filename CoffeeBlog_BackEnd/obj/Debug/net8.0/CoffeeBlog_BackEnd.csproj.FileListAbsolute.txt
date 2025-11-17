@@ -261,3 +261,5 @@ C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bi
 C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\DotNetEnv.dll
 C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\Sprache.dll
+C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\obj\Debug\net8.0\CoffeeBlog_BackEnd.sourcelink.json

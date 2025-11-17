@@ -2,7 +2,11 @@
 using CoffeeReviewApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -34,6 +38,8 @@ namespace CoffeeBlog_BackEnd.Controllers
             return new User { Id = user.Id, Username = user.Username, Email = user.Email };
         }
 
+
+        //--------------------------------------------------------------------REGISTRATION------------------
         [HttpPost]
         public async Task<ActionResult<User>> Register(RegisterUserDto dto)
         {
@@ -78,6 +84,46 @@ namespace CoffeeBlog_BackEnd.Controllers
             using var sha256 = SHA256.Create();
             var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(bytes);
+        }
+
+
+        //--------------------------------------------------------------------LOGIN / JWT ASSIGNING------------------
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == dto.Username);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                return BadRequest("Invalid username or password.");
+
+            var token = GenerateJwtToken(user);
+
+            return Ok(new { token });
+        }
+
+        // ============================== PRIVATE: Generate JWT ==============================
+        private string GenerateJwtToken(User user)
+        {
+            var claims = new[]
+            {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Email, user.Email)
+        };
+
+            var key = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")!));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(8),           // 8-hour token
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
     }
