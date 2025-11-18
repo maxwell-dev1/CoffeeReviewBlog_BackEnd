@@ -26,4 +26,7 @@ public partial class CoffeeReview
     public DateTime UpdatedAt { get; set; }
 
     public virtual User User { get; set; } = null!;
+
+    //for optional review images below
+    public ReviewImage? Image { get; set; }     // One-to-one relationship
 }

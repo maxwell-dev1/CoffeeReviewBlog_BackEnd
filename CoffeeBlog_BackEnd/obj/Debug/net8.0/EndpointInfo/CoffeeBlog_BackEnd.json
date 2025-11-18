@@ -83,6 +83,49 @@
         }
       }
     },
+    "/api/CoffeeReviews/{id}/image": {
+      "post": {
+        "tags": [
+          "CoffeeReviews"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Users": {
       "get": {
         "tags": [
@@ -286,6 +329,9 @@
           },
           "user": {
             "$ref": "#/components/schemas/User"
+          },
+          "image": {
+            "$ref": "#/components/schemas/ReviewImage"
           }
         },
         "additionalProperties": false
@@ -356,6 +402,27 @@
           "password": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewImage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reviewId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imagePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "coffeeReview": {
+            "$ref": "#/components/schemas/CoffeeReview"
           }
         },
         "additionalProperties": false

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoffeeBlog_BackEnd")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+adce3b0b3fd1c899c230d2beb67b9328779c70b5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6bce2128f2462239834a35aafca6b8cf64899381")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoffeeBlog_BackEnd")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoffeeBlog_BackEnd")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

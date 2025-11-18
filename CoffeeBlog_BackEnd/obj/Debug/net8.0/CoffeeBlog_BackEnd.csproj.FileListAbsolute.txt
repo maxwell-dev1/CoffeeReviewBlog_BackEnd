@@ -264,3 +264,4 @@ C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bi
 C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\obj\Debug\net8.0\CoffeeBlog_BackEnd.sourcelink.json
 C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\m47ha\source\repos\CoffeeBlog1\CoffeeBlog_BackEnd\CoffeeBlog_BackEnd\bin\Debug\net8.0\CoffeeBlog_BackEnd.staticwebassets.runtime.json
